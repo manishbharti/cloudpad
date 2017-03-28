@@ -1,7 +1,13 @@
 import React, {Component} from "react";
-import {Navbar} from "react-bootstrap";
+import {Nav, Navbar, NavItem} from "react-bootstrap";
 
 class AppNavbar extends Component {
+
+    constructor() {
+        super();
+        this.state = {username: null}
+    }
+
     render() {
         return (
             <Navbar>
@@ -11,8 +17,17 @@ class AppNavbar extends Component {
                     </Navbar.Brand>
                     <Navbar.Toggle />
                 </Navbar.Header>
+                <Navbar.Collapse>
+                    <Nav pullRight>
+                        <NavItem eventKey={1} href="#">{this.state.username}</NavItem>
+                    </Nav>
+                </Navbar.Collapse>
             </Navbar>
         );
+    }
+
+    _updateNavbar(username) {
+        this.setState({username: username});
     }
 }
 

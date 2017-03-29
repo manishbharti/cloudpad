@@ -7,20 +7,18 @@ class NoteListComponent extends Component {
     constructor() {
         super();
         this.state = {
-            show: false,
             notes: []
         }
     }
 
     render() {
-        if (this.state.show) {
+        if (this.state.notes.length > 0) {
             return (
                 <Col xs={12}>
                     <Table striped bordered condensed hover>
                         <thead>
                         <tr>
                             <th>Id</th>
-                            <th>URL</th>
                             <th>Name</th>
                             <th>Created On</th>
                         </tr>
@@ -47,7 +45,7 @@ class NoteListComponent extends Component {
             contentType: 'application/json; charset=utf-8',
             dataType: "json",
             success: function (response) {
-                self.setState({show: true, notes: response.notes});
+                self.setState({notes: response.notes});
             },
             error: function (xhr, status) {
                 console.info("Error");
@@ -62,7 +60,6 @@ let NoteRow = React.createClass({
         {this.props.notes.map((note) => {
                 return <tr key={note.id}>
                     <td>{note.id}</td>
-                    <td>{note.url}</td>
                     <td>{note.name}</td>
                     <td>{new Date(note.dateCreated).toDateString()}</td>
                 </tr>;

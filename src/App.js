@@ -31,13 +31,12 @@ class App extends Component {
         return (
             <div>
                 <NavbarComponent ref="navbar"/>
-                <LoginComponent updateUser={this._updateUser.bind(this)}/>
+                {this.state.user.username === '' ? <LoginComponent updateUser={this._updateUser.bind(this)}/> : null}
             </div>
         );
     }
 
     _updateUser(user) {
-        console.info(user);
         this.setState({
             user: {
                 username: user.username,

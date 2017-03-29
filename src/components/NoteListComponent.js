@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import jquery from "jquery";
 import {Col, Table} from "react-bootstrap";
+import {NOTE_LIST_URL} from "../constants";
 
 class NoteListComponent extends Component {
 
@@ -35,7 +36,7 @@ class NoteListComponent extends Component {
     _getNotes(username, accessToken) {
         let self = this;
         jquery.ajax({
-            url: "http://localhost:8080/dashboard",
+            url: NOTE_LIST_URL,
             type: "GET",
             crossDomain: true,
             beforeSend: function (request) {

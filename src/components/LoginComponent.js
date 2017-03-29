@@ -3,7 +3,7 @@ import jquery from "jquery";
 import {Button, Col, ControlLabel, Form, FormControl, FormGroup} from "react-bootstrap";
 import {LOGIN_URL} from "./../constants";
 
-class Login extends Component {
+class LoginComponent extends Component {
 
     constructor() {
         super();
@@ -61,10 +61,14 @@ class Login extends Component {
                 self.setState({showLoginForm: false});
             },
             error: function (xhr, status) {
-                alert("Invalid username or password.");
+                if (xhr.status === 401) {
+                    alert("Invalid username or password.");
+                } else {
+                    alert("Something went wrong. Please try again later.");
+                }
             }
         });
     }
 }
 
-export default Login;
+export default LoginComponent;

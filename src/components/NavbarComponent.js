@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {Nav, Navbar, NavItem} from "react-bootstrap";
 
-class AppNavbar extends Component {
+class NavbarComponent extends Component {
 
     constructor() {
         super();
@@ -31,4 +31,4 @@ class AppNavbar extends Component {
     }
 }
 
-export default AppNavbar;
+export default NavbarComponent;

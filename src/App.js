@@ -1,8 +1,7 @@
 import React, {Component} from "react";
-import "./App.css";
 import LoginComponent from "./components/LoginComponent";
 import NavbarComponent from "./components/NavbarComponent";
-import jquery from "jquery";
+import NoteListComponent from "./components/NoteListComponent";
 
 class App extends Component {
 
@@ -32,6 +31,7 @@ class App extends Component {
             <div>
                 <NavbarComponent ref="navbar"/>
                 {this.state.user.username === '' ? <LoginComponent updateUser={this._updateUser.bind(this)}/> : null}
+                <NoteListComponent ref="noteList"/>
             </div>
         );
     }
@@ -47,31 +47,7 @@ class App extends Component {
         });
 
         this.refs.navbar._updateNavbar(user.username);
-        // this._getNotes();
-    }
-
-    _getNotes() {
-        event.preventDefault();
-        let username = this.state.user.username;
-        let accessToken = this.state.getAccessToken();
-
-        jquery.ajax({
-            url: "http://localhost:8080/dashboard",
-            type: "GET",
-            crossDomain: true,
-            beforeSend: function (request) {
-                request.setRequestHeader('Authorization', accessToken);
-            },
-            data: {username: username},
-            contentType: 'application/json; charset=utf-8',
-            dataType: "json",
-            success: function (response) {
-                console.info(response);
-            },
-            error: function (xhr, status) {
-                console.info("Error");
-            }
-        });
+        this.refs.noteList._getNotes(this.state.user.username, this.state.getAccessToken());
     }
 }
 

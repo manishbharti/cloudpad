@@ -60,7 +60,6 @@ let NoteRow = React.createClass({
     render() {
         return <tbody>
         {this.props.notes.map((note) => {
-            console.info();
                 return <tr key={note.id}>
                     <td>{note.id}</td>
                     <td>{note.url}</td>

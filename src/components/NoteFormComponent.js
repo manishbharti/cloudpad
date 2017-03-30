@@ -3,7 +3,7 @@ import {ControlLabel, Form, FormControl, FormGroup} from "react-bootstrap";
 import jquery from "jquery";
 import {UserData} from "../App";
 
-class NoteComponent extends Component {
+class NoteFormComponent extends Component {
 
     constructor() {
         super();
@@ -72,4 +72,4 @@ class NoteComponent extends Component {
     }
 }
 
-export default NoteComponent;
+export default NoteFormComponent;

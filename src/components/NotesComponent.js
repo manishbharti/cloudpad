@@ -2,10 +2,10 @@ import React, {Component} from "react";
 import jquery from "jquery";
 import {Col, ControlLabel, Table} from "react-bootstrap";
 import {NOTE_LIST_URL} from "../constants";
-import NoteComponent from "./NoteComponent";
+import NoteFormComponent from "./NoteFormComponent";
 import {UserData} from "../App";
 
-class NoteListComponent extends Component {
+class NotesComponent extends Component {
 
     constructor() {
         super();
@@ -39,7 +39,7 @@ class NoteListComponent extends Component {
                         </Table>
                     </Col>
                     <Col xs={12} md={10}>
-                        <NoteComponent ref="noteForm"/>
+                        <NoteFormComponent ref="noteForm"/>
                     </Col>
                 </div>
             );
@@ -70,4 +70,4 @@ class NoteListComponent extends Component {
     }
 }
 
-export default NoteListComponent;
+export default NotesComponent;

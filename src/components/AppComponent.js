@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import LoginComponent from "./LoginComponent";
 import NavbarComponent from "./NavbarComponent";
-import NoteListComponent from "./NoteListComponent";
+import NotesComponent from "./NotesComponent";
 import {Col} from "react-bootstrap";
 import {UserData} from "../App";
 
@@ -20,7 +20,7 @@ class AppComponent extends Component {
                 <NavbarComponent ref="navbar"/>
                 <Col xs={12}>
                     {this.state.showLoginForm ? <LoginComponent updateUser={this._updateUser.bind(this)}/> : null}
-                    <NoteListComponent ref="noteList"/>
+                    <NotesComponent ref="noteList"/>
                 </Col>
             </div>
         );

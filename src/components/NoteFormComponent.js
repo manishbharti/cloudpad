@@ -87,6 +87,7 @@ class NoteFormComponent extends Component {
             dataType: "json",
             success: function (response) {
                 alert("Notepad updated successfully.");
+                self.props.onUpdate(response);
             },
             error: function (xhr, status) {
                 console.info("Error");

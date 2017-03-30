@@ -39,7 +39,7 @@ class NotesComponent extends Component {
                         </Table>
                     </Col>
                     <Col xs={12} md={10}>
-                        <NoteFormComponent ref="noteForm"/>
+                        <NoteFormComponent ref="noteForm" onUpdate={this._updateNoteAfterServerUpdate.bind(this)}/>
                     </Col>
                 </div>
             );
@@ -67,6 +67,17 @@ class NotesComponent extends Component {
                 console.info("Error");
             }
         });
+    }
+
+    _updateNoteAfterServerUpdate(updatedNote) {
+        let notes = this.state.notes;
+        for (let idx in notes) {
+            if (notes[idx].id === updatedNote.id) {
+                notes[idx].name = updatedNote.name;
+                break;
+            }
+        }
+        this.setState({notes: notes});
     }
 }
 

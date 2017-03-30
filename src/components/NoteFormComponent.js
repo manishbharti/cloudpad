@@ -9,18 +9,14 @@ class NoteFormComponent extends Component {
         super();
         this.state = {
             show: false,
-            note: {
-                id: '',
-                name: '',
-                content: ''
-            }
+            note: {}
         }
     }
 
     render() {
         if (this.state.show) {
             return (
-                <Form onSubmit={this._login.bind(this)}>
+                <Form onSubmit={this._saveNote.bind(this)}>
                     <FormGroup controlId="formControlsNoteName">
                         <ControlLabel>Notepad Name</ControlLabel>
                         <FormControl type="text" placeholder="Enter notepad Name" value={this.state.note.name || ''}
@@ -52,7 +48,7 @@ class NoteFormComponent extends Component {
         this.setState({note: note});
     }
 
-    _getNote(noteId) {
+    _showNote(noteId) {
         let self = this;
         jquery.ajax({
             url: "http://localhost:8080/notepad/" + noteId,
@@ -72,12 +68,23 @@ class NoteFormComponent extends Component {
         });
     }
 
-    _login(event) {
+    _saveNote(event) {
         event.preventDefault();
         let self = this;
+        let url;
+        let ajaxType;
+
+        if (this.state.note.id) {
+            url = "http://localhost:8080/notepad/" + this.state.note.id;
+            ajaxType = "PUT";
+        } else {
+            url = "http://localhost:8080/notepad";
+            ajaxType = "POST";
+        }
+
         jquery.ajax({
-            url: "http://localhost:8080/notepad/" + this.state.note.id,
-            type: "PUT",
+            url: url,
+            type: ajaxType,
             crossDomain: true,
             beforeSend: function (request) {
                 request.setRequestHeader('Authorization', UserData.getAccessToken());
@@ -86,13 +93,21 @@ class NoteFormComponent extends Component {
             contentType: 'application/json; charset=utf-8',
             dataType: "json",
             success: function (response) {
-                alert("Notepad updated successfully.");
-                self.props.onUpdate(response);
+                alert("Notepad saved successfully.");
+                if (self.state.note.id) {
+                    self.props.onUpdate(response);
+                } else {
+                    self.props.onAddingNewNote(response)
+                }
             },
             error: function (xhr, status) {
                 console.info("Error");
             }
         });
+    }
+
+    _newNote() {
+        this.setState({show: true, note: {}});
     }
 }
 

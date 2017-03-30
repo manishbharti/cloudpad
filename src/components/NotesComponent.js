@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import jquery from "jquery";
-import {Col, ControlLabel, Table} from "react-bootstrap";
+import {Button, Col, ControlLabel, Table} from "react-bootstrap";
 import {NOTE_LIST_URL} from "../constants";
 import NoteFormComponent from "./NoteFormComponent";
 import {UserData} from "../App";
@@ -19,6 +19,9 @@ class NotesComponent extends Component {
             return (
                 <div>
                     <Col xs={12} md={2}>
+                        <Button block onClick={() => this.refs.noteForm._newNote()}>New</Button>
+
+                        <br/>
                         <ControlLabel>Saved Notepads</ControlLabel>
                         <Table striped bordered condensed hover>
                             <thead>
@@ -30,7 +33,8 @@ class NotesComponent extends Component {
                             {this.state.notes.map((note) => {
                                     return (<tr key={note.id}>
                                         <td>
-                                            <a href="#" onClick={() => this.refs.noteForm._getNote(note.id)}>{note.name}</a>
+                                            <a href="#"
+                                               onClick={() => this.refs.noteForm._showNote(note.id)}>{note.name}</a>
                                         </td>
                                     </tr>);
                                 }
@@ -39,7 +43,8 @@ class NotesComponent extends Component {
                         </Table>
                     </Col>
                     <Col xs={12} md={10}>
-                        <NoteFormComponent ref="noteForm" onUpdate={this._updateNoteAfterServerUpdate.bind(this)}/>
+                        <NoteFormComponent ref="noteForm" onUpdate={this._updateNoteAfterServerUpdate.bind(this)}
+                                           onAddingNewNote={this._updateNotesAfterSavingNewNote.bind(this)}/>
                     </Col>
                 </div>
             );
@@ -77,6 +82,12 @@ class NotesComponent extends Component {
                 break;
             }
         }
+        this.setState({notes: notes});
+    }
+
+    _updateNotesAfterSavingNewNote(newNote) {
+        let notes = this.state.notes;
+        notes.push(newNote);
         this.setState({notes: notes});
     }
 }

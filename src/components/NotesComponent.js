@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import jquery from "jquery";
-import {Button, Col, ControlLabel, Table} from "react-bootstrap";
+import {Button, Col, ControlLabel, Glyphicon, Table} from "react-bootstrap";
 import {NOTE_LIST_URL} from "../constants";
 import NoteFormComponent from "./NoteFormComponent";
 import {UserData} from "../App";
@@ -35,6 +35,8 @@ class NotesComponent extends Component {
                                         <td>
                                             <a href="#"
                                                onClick={() => this.refs.noteForm._showNote(note.id)}>{note.name}</a>
+                                            <Glyphicon glyph="remove" className="pull-right"
+                                                       onClick={() => this._deleteNote(note)}/>
                                         </td>
                                     </tr>);
                                 }
@@ -88,6 +90,39 @@ class NotesComponent extends Component {
     _updateNotesAfterSavingNewNote(newNote) {
         let notes = this.state.notes;
         notes.push(newNote);
+        this.setState({notes: notes});
+    }
+
+    _deleteNote(note) {
+        if (confirm(`Are you sure you want to delete the notepad (${note.name})?`)) {
+            let self = this;
+            jquery.ajax({
+                url: "http://localhost:8080/notepad/" + note.id,
+                type: "DELETE",
+                crossDomain: true,
+                beforeSend: function (request) {
+                    request.setRequestHeader('Authorization', UserData.getAccessToken());
+                },
+                contentType: 'application/json; charset=utf-8',
+                dataType: "json",
+                success: function (response) {
+                    self._removeNote(note.id);
+                },
+                error: function (xhr, status) {
+                    console.info("Error");
+                }
+            });
+        }
+    }
+
+    _removeNote(noteId) {
+        let notes = this.state.notes;
+        for (let idx in notes) {
+            if (notes[idx].id === noteId) {
+                notes.splice(idx, 1);
+                break;
+            }
+        }
         this.setState({notes: notes});
     }
 }

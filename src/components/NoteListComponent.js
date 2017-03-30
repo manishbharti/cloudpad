@@ -1,7 +1,9 @@
 import React, {Component} from "react";
 import jquery from "jquery";
-import {Col, Table} from "react-bootstrap";
+import {Col, ControlLabel, Table} from "react-bootstrap";
 import {NOTE_LIST_URL} from "../constants";
+import NoteComponent from "./NoteComponent";
+import {UserData} from "../App";
 
 class NoteListComponent extends Component {
 
@@ -15,34 +17,47 @@ class NoteListComponent extends Component {
     render() {
         if (this.state.notes.length > 0) {
             return (
-                <Col xs={12}>
-                    <Table striped bordered condensed hover>
-                        <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th>Name</th>
-                            <th>Created On</th>
-                        </tr>
-                        </thead>
-                        <NoteRow notes={this.state.notes}/>
-                    </Table>
-                </Col>
+                <div>
+                    <Col xs={12} md={2}>
+                        <ControlLabel>Saved Notepads</ControlLabel>
+                        <Table striped bordered condensed hover>
+                            <thead>
+                            <tr>
+                                <th>Name</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {this.state.notes.map((note) => {
+                                    return (<tr key={note.id}>
+                                        <td>
+                                            <a href="#" onClick={() => this.refs.noteForm._getNote(note.id)}>{note.name}</a>
+                                        </td>
+                                    </tr>);
+                                }
+                            )}
+                            </tbody>
+                        </Table>
+                    </Col>
+                    <Col xs={12} md={10}>
+                        <NoteComponent ref="noteForm"/>
+                    </Col>
+                </div>
             );
         } else {
             return null;
         }
     }
 
-    _getNotes(username, accessToken) {
+    _getNotes() {
         let self = this;
         jquery.ajax({
             url: NOTE_LIST_URL,
             type: "GET",
             crossDomain: true,
             beforeSend: function (request) {
-                request.setRequestHeader('Authorization', accessToken);
+                request.setRequestHeader('Authorization', UserData.getAccessToken());
             },
-            data: {username: username},
+            data: {username: UserData.user.username},
             contentType: 'application/json; charset=utf-8',
             dataType: "json",
             success: function (response) {
@@ -54,20 +69,5 @@ class NoteListComponent extends Component {
         });
     }
 }
-
-let NoteRow = React.createClass({
-    render() {
-        return <tbody>
-        {this.props.notes.map((note) => {
-                return <tr key={note.id}>
-                    <td>{note.id}</td>
-                    <td>{note.name}</td>
-                    <td>{new Date(note.dateCreated).toDateString()}</td>
-                </tr>;
-            }
-        )}
-        </tbody>;
-    }
-});
 
 export default NoteListComponent;

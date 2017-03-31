@@ -9,6 +9,15 @@ class NavbarComponent extends Component {
     }
 
     render() {
+
+        let banner = null;
+        if (this.state.username) {
+            banner = <Nav pullRight>
+                <NavItem eventKey={1} href="#">{this.state.username}</NavItem>
+                <NavItem eventKey={1} href="#" onClick={() => location.reload()}>Logout</NavItem>
+            </Nav>;
+        }
+
         return (
             <Navbar>
                 <Navbar.Header>
@@ -18,9 +27,7 @@ class NavbarComponent extends Component {
                     <Navbar.Toggle />
                 </Navbar.Header>
                 <Navbar.Collapse>
-                    <Nav pullRight>
-                        <NavItem eventKey={1} href="#">{this.state.username}</NavItem>
-                    </Nav>
+                    {banner}
                 </Navbar.Collapse>
             </Navbar>
         );

@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import jquery from "jquery";
 import {Button, Col, ControlLabel, Glyphicon, Table} from "react-bootstrap";
-import {NOTE_LIST_URL} from "../constants";
+import {DELETE_NOTE_URL, NOTE_LIST_URL} from "../constants";
 import NoteFormComponent from "./NoteFormComponent";
 import {UserData} from "../App";
 
@@ -97,7 +97,7 @@ class NotesComponent extends Component {
         if (confirm(`Are you sure you want to delete the notepad (${note.name})?`)) {
             let self = this;
             jquery.ajax({
-                url: "http://localhost:8080/notepad/" + note.id,
+                url: DELETE_NOTE_URL + note.id,
                 type: "DELETE",
                 crossDomain: true,
                 beforeSend: function (request) {

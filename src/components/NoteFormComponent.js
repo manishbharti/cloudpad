@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import {Button, ControlLabel, Form, FormControl, FormGroup} from "react-bootstrap";
 import jquery from "jquery";
 import {UserData} from "../App";
+import {SAVE_NOTE_URL, SHOW_NOTE_URL, UPDATE_NOTE_URL} from "../constants";
 
 class NoteFormComponent extends Component {
 
@@ -24,7 +25,7 @@ class NoteFormComponent extends Component {
                     </FormGroup>
                     <FormGroup controlId="formControlsTextarea">
                         <ControlLabel>Notepad</ControlLabel>
-                        <FormControl componentClass="textarea" placeholder="Write notes here" rows="10"
+                        <FormControl componentClass="textarea" placeholder="Write notes here" rows="25"
                                      value={this.state.note.content || ''}
                                      onChange={this._handleContentChange.bind(this)}/>
                     </FormGroup>
@@ -51,7 +52,7 @@ class NoteFormComponent extends Component {
     _showNote(noteId) {
         let self = this;
         jquery.ajax({
-            url: "http://localhost:8080/notepad/" + noteId,
+            url: SHOW_NOTE_URL + noteId,
             type: "GET",
             crossDomain: true,
             beforeSend: function (request) {
@@ -75,10 +76,10 @@ class NoteFormComponent extends Component {
         let ajaxType;
 
         if (this.state.note.id) {
-            url = "http://localhost:8080/notepad/" + this.state.note.id;
+            url = UPDATE_NOTE_URL + this.state.note.id;
             ajaxType = "PUT";
         } else {
-            url = "http://localhost:8080/notepad";
+            url = SAVE_NOTE_URL;
             ajaxType = "POST";
         }
 

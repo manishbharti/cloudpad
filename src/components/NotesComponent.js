@@ -10,12 +10,13 @@ class NotesComponent extends Component {
     constructor() {
         super();
         this.state = {
+            show: false,
             notes: []
         }
     }
 
     render() {
-        if (this.state.notes.length > 0) {
+        if (this.state.show) {
             return (
                 <div>
                     <Col xs={12} md={2}>
@@ -68,7 +69,7 @@ class NotesComponent extends Component {
             contentType: 'application/json; charset=utf-8',
             dataType: "json",
             success: function (response) {
-                self.setState({notes: response.notes});
+                self.setState({notes: response.notes, show: true});
             },
             error: function (xhr, status) {
                 console.info("Error");

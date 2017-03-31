@@ -7,6 +7,24 @@ class SignUpComponent extends Component {
     render() {
         return (
             <Form horizontal onSubmit={this._signUp.bind(this)}>
+                <FormGroup controlId="formHorizontalFirstName">
+                    <Col componentClass={ControlLabel} sm={1}>
+                        First Name
+                    </Col>
+                    <Col sm={10}>
+                        <FormControl type="firstName" placeholder="First Name" inputRef={(fn) => this._firstName = fn}/>
+                    </Col>
+                </FormGroup>
+
+                <FormGroup controlId="formHorizontalLastName">
+                    <Col componentClass={ControlLabel} sm={1}>
+                        Last Name
+                    </Col>
+                    <Col sm={10}>
+                        <FormControl type="lastName" placeholder="Last Name" inputRef={(ln) => this._lastName = ln}/>
+                    </Col>
+                </FormGroup>
+
                 <FormGroup controlId="formHorizontalUsername">
                     <Col componentClass={ControlLabel} sm={1}>
                         Username
@@ -46,7 +64,12 @@ class SignUpComponent extends Component {
             crossDomain: true,
             contentType: 'application/json; charset=utf-8',
             dataType: "json",
-            data: JSON.stringify({"username": this._username.value, "password": this._password.value}),
+            data: JSON.stringify({
+                "firstName": this._firstName.value,
+                "lastName": this._lastName.value,
+                "username": this._username.value,
+                "password": this._password.value
+            }),
             success: function (response) {
                 console.info(response);
                 // self.props.updateUser(response);

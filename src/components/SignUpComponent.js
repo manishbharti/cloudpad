@@ -1,13 +1,12 @@
 import React, {Component} from "react";
 import jquery from "jquery";
 import {Button, ButtonToolbar, Col, ControlLabel, Form, FormControl, FormGroup} from "react-bootstrap";
-import {LOGIN_URL} from "./../constants";
+import {SAVE_USER_URL} from "./../constants";
 
-class LoginComponent extends Component {
-
+class SignUpComponent extends Component {
     render() {
         return (
-            <Form horizontal onSubmit={this._login.bind(this)}>
+            <Form horizontal onSubmit={this._signUp.bind(this)}>
                 <FormGroup controlId="formHorizontalUsername">
                     <Col componentClass={ControlLabel} sm={1}>
                         Username
@@ -29,8 +28,8 @@ class LoginComponent extends Component {
                 <FormGroup>
                     <Col smOffset={1} sm={10}>
                         <ButtonToolbar>
-                            <Button type="submit" bsStyle="primary">Sign in</Button>
-                            <Button type="button" onClick={() => this.props.showSignUpForm()}>New User</Button>
+                            <Button type="submit" bsStyle="primary">Save</Button>
+                            <Button type="button" onClick={() => this.props.showLoginForm()}>Sign in</Button>
                         </ButtonToolbar>
                     </Col>
                 </FormGroup>
@@ -38,28 +37,25 @@ class LoginComponent extends Component {
         );
     }
 
-    _login(event) {
+    _signUp(event) {
         event.preventDefault();
         let self = this;
         jquery.ajax({
-            url: LOGIN_URL,
+            url: SAVE_USER_URL,
             type: "POST",
             crossDomain: true,
-            data: JSON.stringify({"username": this._username.value, "password": this._password.value}),
             contentType: 'application/json; charset=utf-8',
             dataType: "json",
+            data: JSON.stringify({"username": this._username.value, "password": this._password.value}),
             success: function (response) {
-                self.props.updateUser(response);
+                console.info(response);
+                // self.props.updateUser(response);
             },
             error: function (xhr, status) {
-                if (xhr.status === 401) {
-                    alert("Invalid username or password.");
-                } else {
-                    alert("Something went wrong. Please try again later.");
-                }
+                alert("Something went wrong. Please try again later.");
             }
         });
     }
 }
 
-export default LoginComponent;
+export default SignUpComponent;

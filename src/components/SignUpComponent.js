@@ -71,8 +71,8 @@ class SignUpComponent extends Component {
                 "password": this._password.value
             }),
             success: function (response) {
-                console.info(response);
-                // self.props.updateUser(response);
+                alert("Account created successfully.");
+                self.props.showLoginForm();
             },
             error: function (xhr, status) {
                 alert("Something went wrong. Please try again later.");

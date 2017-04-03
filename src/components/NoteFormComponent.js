@@ -110,6 +110,10 @@ class NoteFormComponent extends Component {
     _newNote() {
         this.setState({show: true, note: {}});
     }
+
+    _hideForm() {
+        this.setState({show: false});
+    }
 }
 
 export default NoteFormComponent;

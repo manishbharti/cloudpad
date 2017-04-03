@@ -107,6 +107,7 @@ class NotesComponent extends Component {
                 contentType: 'application/json; charset=utf-8',
                 dataType: "json",
                 success: function (response) {
+                    self.refs.noteForm._hideForm();
                     self._removeNote(note.id);
                 },
                 error: function (xhr, status) {

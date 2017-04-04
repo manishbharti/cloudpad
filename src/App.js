@@ -21,6 +21,12 @@ let UserData = {
     },
     isLoggedin: function () {
         return this.getAccessToken() !== '';
+    },
+    removeUserData: function () {
+        this.user.username = "";
+        this.user.token_type = "";
+        this.user.access_token = "";
+        this.user.roles = [];
     }
 };
 

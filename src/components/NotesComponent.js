@@ -10,50 +10,49 @@ class NotesComponent extends Component {
     constructor() {
         super();
         this.state = {
-            show: false,
             notes: []
         }
     }
 
-    render() {
-        if (this.state.show) {
-            return (
-                <div>
-                    <Col xs={12} md={2}>
-                        <Button block onClick={() => this.refs.noteForm._newNote()}>New</Button>
+    componentDidMount() {
+        this._getNotes();
+    }
 
-                        <br/>
-                        <ControlLabel>Saved Notepads</ControlLabel>
-                        <Table striped bordered condensed hover>
-                            <thead>
-                            <tr>
-                                <th>Name</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {this.state.notes.map((note) => {
-                                    return (<tr key={note.id}>
-                                        <td>
-                                            <a href="#"
-                                               onClick={() => this.refs.noteForm._showNote(note.id)}>{note.name}</a>
-                                            <Glyphicon glyph="remove" className="pull-right"
-                                                       onClick={() => this._deleteNote(note)}/>
-                                        </td>
-                                    </tr>);
-                                }
-                            )}
-                            </tbody>
-                        </Table>
-                    </Col>
-                    <Col xs={12} md={10}>
-                        <NoteFormComponent ref="noteForm" onUpdate={this._updateNoteAfterServerUpdate.bind(this)}
-                                           onAddingNewNote={this._updateNotesAfterSavingNewNote.bind(this)}/>
-                    </Col>
-                </div>
-            );
-        } else {
-            return null;
-        }
+    render() {
+        return (
+            <div>
+                <Col xs={12} md={2}>
+                    <Button block onClick={() => this.refs.noteForm._newNote()}>New</Button>
+
+                    <br/>
+                    <ControlLabel>Saved Notepads</ControlLabel>
+                    <Table striped bordered condensed hover>
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {this.state.notes.map((note) => {
+                                return (<tr key={note.id}>
+                                    <td>
+                                        <a href="#"
+                                           onClick={() => this.refs.noteForm._showNote(note.id)}>{note.name}</a>
+                                        <Glyphicon glyph="remove" className="pull-right"
+                                                   onClick={() => this._deleteNote(note)}/>
+                                    </td>
+                                </tr>);
+                            }
+                        )}
+                        </tbody>
+                    </Table>
+                </Col>
+                <Col xs={12} md={10}>
+                    <NoteFormComponent ref="noteForm" onUpdate={this._updateNoteAfterServerUpdate.bind(this)}
+                                       onAddingNewNote={this._updateNotesAfterSavingNewNote.bind(this)}/>
+                </Col>
+            </div>
+        );
     }
 
     _getNotes() {
@@ -69,7 +68,7 @@ class NotesComponent extends Component {
             contentType: 'application/json; charset=utf-8',
             dataType: "json",
             success: function (response) {
-                self.setState({notes: response.notes, show: true});
+                self.setState({notes: response.notes});
             },
             error: function (xhr, status) {
                 console.info("Error");

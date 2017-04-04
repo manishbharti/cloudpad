@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import {Nav, Navbar, NavItem} from "react-bootstrap";
+import {Link} from "react-router-dom";
 
 class NavbarComponent extends Component {
 
@@ -22,7 +23,7 @@ class NavbarComponent extends Component {
             <Navbar>
                 <Navbar.Header>
                     <Navbar.Brand>
-                        <a href="#">Cloud Pad</a>
+                        <Link to="/">Cloud Pad</Link>
                     </Navbar.Brand>
                     <Navbar.Toggle />
                 </Navbar.Header>

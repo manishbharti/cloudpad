@@ -2,9 +2,10 @@ import React, {Component} from "react";
 import LoginComponent from "./LoginComponent";
 import NavbarComponent from "./NavbarComponent";
 import NotesComponent from "./NotesComponent";
-import {Col} from "react-bootstrap";
 import {UserData} from "../App";
 import SignUpComponent from "./SignUpComponent";
+import {BrowserRouter as Router, Redirect, Route} from "react-router-dom";
+import {Col} from "react-bootstrap";
 
 class AppComponent extends Component {
 
@@ -17,20 +18,21 @@ class AppComponent extends Component {
     }
 
     render() {
-        let loginForm = this.state.showLoginForm ? <LoginComponent updateUser={this._updateUser.bind(this)}
-                                                                   showSignUpForm={this._toggleLoginAndSignUpShowState.bind(this)}/> : null;
-        let signUpForm = this.state.showSignUpForm ?
-            <SignUpComponent showLoginForm={this._toggleLoginAndSignUpShowState.bind(this)}/> : null;
-
         return (
-            <div>
-                <NavbarComponent ref="navbar"/>
-                <Col xs={12}>
-                    {loginForm}
-                    {signUpForm}
-                    <NotesComponent ref="noteList"/>
-                </Col>
-            </div>
+            <Router>
+                <div>
+                    <NavbarComponent ref="navbar"/>
+                    <Col xs={12}>
+                        {this._loginForm()}
+                        {this._singUpForm()}
+                        <Route exact path="/"/>
+                        <Route exact path="/" render={() => (
+                            UserData.isLoggedin() ? <Redirect to="/notepads"/> : null)}/>
+                    </Col>
+
+                    <Route path="/notepads" component={NotesComponent}/>
+                </div>
+            </Router>
         );
     }
 
@@ -38,11 +40,27 @@ class AppComponent extends Component {
         UserData.setUserData(user);
         this.setState({showLoginForm: !UserData.isLoggedin()});
         this.refs.navbar._updateNavbar(UserData.user.username);
-        this.refs.noteList._getNotes();
     }
 
     _toggleLoginAndSignUpShowState() {
         this.setState({showLoginForm: !this.state.showLoginForm, showSignUpForm: !this.state.showSignUpForm});
+    }
+
+    _loginForm() {
+        if (this.state.showLoginForm) {
+            return <LoginComponent updateUser={this._updateUser.bind(this)}
+                                   showSignUpForm={this._toggleLoginAndSignUpShowState.bind(this)}/>;
+        } else {
+            return null;
+        }
+    }
+
+    _singUpForm() {
+        if (this.state.showSignUpForm) {
+            return <SignUpComponent showLoginForm={this._toggleLoginAndSignUpShowState.bind(this)}/>;
+        } else {
+            return null;
+        }
     }
 }
 

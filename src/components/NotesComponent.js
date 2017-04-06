@@ -19,40 +19,45 @@ class NotesComponent extends Component {
     }
 
     render() {
-        return (
-            <div>
-                <Col xs={12} md={2}>
-                    <Button block onClick={() => this.refs.noteForm._newNote()}>New</Button>
+        let notes = null;
+        if(UserData.isLoggedin()) {
+            return (
+                <div>
+                    <Col xs={12} md={2}>
+                        <Button block onClick={() => this.refs.noteForm._newNote()}>New</Button>
 
-                    <br/>
-                    <ControlLabel>Saved Notepads</ControlLabel>
-                    <Table striped bordered condensed hover>
-                        <thead>
-                        <tr>
-                            <th>Name</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {this.state.notes.map((note) => {
-                                return (<tr key={note.id}>
-                                    <td>
-                                        <a href="#"
-                                           onClick={() => this.refs.noteForm._showNote(note.id)}>{note.name}</a>
-                                        <Glyphicon glyph="remove" className="pull-right"
-                                                   onClick={() => this._deleteNote(note)}/>
-                                    </td>
-                                </tr>);
-                            }
-                        )}
-                        </tbody>
-                    </Table>
-                </Col>
-                <Col xs={12} md={10}>
-                    <NoteFormComponent ref="noteForm" onUpdate={this._updateNoteAfterServerUpdate.bind(this)}
-                                       onAddingNewNote={this._updateNotesAfterSavingNewNote.bind(this)}/>
-                </Col>
-            </div>
-        );
+                        <br/>
+                        <ControlLabel>Saved Notepads</ControlLabel>
+                        <Table striped bordered condensed hover>
+                            <thead>
+                            <tr>
+                                <th>Name</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {this.state.notes.map((note) => {
+                                    return (<tr key={note.id}>
+                                        <td>
+                                            <a href="#"
+                                               onClick={() => this.refs.noteForm._showNote(note.id)}>{note.name}</a>
+                                            <Glyphicon glyph="remove" className="pull-right"
+                                                       onClick={() => this._deleteNote(note)}/>
+                                        </td>
+                                    </tr>);
+                                }
+                            )}
+                            </tbody>
+                        </Table>
+                    </Col>
+                    <Col xs={12} md={10}>
+                        <NoteFormComponent ref="noteForm" onUpdate={this._updateNoteAfterServerUpdate.bind(this)}
+                                           onAddingNewNote={this._updateNotesAfterSavingNewNote.bind(this)}/>
+                    </Col>
+                </div>
+            );
+        }else {
+            return null;
+        }
     }
 
     _getNotes() {

@@ -6,6 +6,7 @@ import {UserData} from "../App";
 import SignUpComponent from "./SignUpComponent";
 import {BrowserRouter as Router, Redirect, Route} from "react-router-dom";
 import {Col} from "react-bootstrap";
+import 'bootstrap/dist/css/bootstrap.css';
 
 class AppComponent extends Component {
 
@@ -21,13 +22,12 @@ class AppComponent extends Component {
         return (
             <Router>
                 <div>
-                    <NavbarComponent ref="navbar"/>
+                    <NavbarComponent ref="navbar" showLoginFrom={this._showLoginFrom.bind(this)}/>
                     <Col xs={12}>
                         {this._loginForm()}
                         {this._singUpForm()}
-                        <Route exact path="/"/>
-                        <Route exact path="/" render={() => (
-                            UserData.isLoggedin() ? <Redirect to="/notepads"/> : null)}/>
+                        <Route exact path="/"
+                               render={() => (UserData.isLoggedin() ? <Redirect to="/notepads"/> : null)}/>
                     </Col>
 
                     <Route path="/notepads" component={NotesComponent}/>
@@ -40,6 +40,10 @@ class AppComponent extends Component {
         UserData.setUserData(user);
         this.setState({showLoginForm: !UserData.isLoggedin()});
         this.refs.navbar._updateNavbar(UserData.user.username);
+    }
+
+    _showLoginFrom() {
+        this.setState({showLoginForm: !this.state.showLoginForm});
     }
 
     _toggleLoginAndSignUpShowState() {

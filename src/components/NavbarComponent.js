@@ -1,6 +1,7 @@
 import React, {Component} from "react";
-import {Nav, Navbar, NavItem} from "react-bootstrap";
+import {Navbar} from "react-bootstrap";
 import {Link} from "react-router-dom";
+import {UserData} from "../App";
 
 class NavbarComponent extends Component {
 
@@ -10,13 +11,12 @@ class NavbarComponent extends Component {
     }
 
     render() {
-
-        let banner = null;
+        let nav = null;
         if (this.state.username) {
-            banner = <Nav pullRight>
-                <NavItem eventKey={1} href="#">{this.state.username}</NavItem>
-                <NavItem eventKey={1} href="#" onClick={() => location.reload()}>Logout</NavItem>
-            </Nav>;
+            nav = <ul className="nav navbar-nav navbar-right">
+                <li><a href="#">{this.state.username}</a></li>
+                <li><Link to="/" onClick={() => this._logout()}>Logout</Link></li>
+            </ul>;
         }
 
         return (
@@ -27,15 +27,18 @@ class NavbarComponent extends Component {
                     </Navbar.Brand>
                     <Navbar.Toggle />
                 </Navbar.Header>
-                <Navbar.Collapse>
-                    {banner}
-                </Navbar.Collapse>
+                {nav}
             </Navbar>
         );
     }
 
     _updateNavbar(username) {
         this.setState({username: username});
+    }
+
+    _logout() {
+        UserData.removeUserData();
+        this.props.showLoginFrom();
     }
 }
 

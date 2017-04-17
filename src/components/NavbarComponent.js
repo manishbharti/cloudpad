@@ -1,45 +1,54 @@
-import React, {Component} from "react";
+import React, {PropTypes} from "react";
 import {Navbar} from "react-bootstrap";
-import {Link} from "react-router-dom";
-import {UserData} from "../App";
+import {Link, withRouter} from "react-router-dom";
+import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
+import * as sessionActions from "../actions/sessionActions";
 
-class NavbarComponent extends Component {
+const NavbarComponent = ({actions: {logout}, user, authenticated}) => (
+    <Navbar>
+        <Navbar.Header>
+            <Navbar.Brand>
+                <Link to="/">Cloud Pad</Link>
+            </Navbar.Brand>
+            <Navbar.Toggle />
+        </Navbar.Header>
+        {getUserNav(user, logout)}
+    </Navbar>
+);
 
-    constructor() {
-        super();
-        this.state = {username: null}
-    }
-
-    render() {
-        let nav = null;
-        if (this.state.username) {
-            nav = <ul className="nav navbar-nav navbar-right">
-                <li><a href="#">{this.state.username}</a></li>
-                <li><Link to="/" onClick={() => this._logout()}>Logout</Link></li>
-            </ul>;
-        }
-
-        return (
-            <Navbar>
-                <Navbar.Header>
-                    <Navbar.Brand>
-                        <Link to="/">Cloud Pad</Link>
-                    </Navbar.Brand>
-                    <Navbar.Toggle />
-                </Navbar.Header>
-                {nav}
-            </Navbar>
-        );
-    }
-
-    _updateNavbar(username) {
-        this.setState({username: username});
-    }
-
-    _logout() {
-        UserData.removeUserData();
-        this.props.showLoginFrom();
-    }
+function getUserNav(user, logout) {
+    return user.email ?
+        <ul className="nav navbar-nav navbar-right">
+            <li><a href="#">{user.email}</a></li>
+            <li>
+                {
+                    withRouter(({history}) => (
+                        <a href="javascript:void(0)" onClick={() => logout(history)}>Logout</a>
+                    ))()
+                }
+            </li>
+        </ul>
+        : null;
 }
 
-export default NavbarComponent;
+const {object, bool} = PropTypes;
+
+NavbarComponent.propTypes = {
+    actions: object.isRequired,
+    user: object.isRequired,
+    authenticated: bool.isRequired
+};
+
+const mapState = (state) => ({
+    user: state.session.user,
+    authenticated: state.session.authenticated
+});
+
+const mapDispatch = (dispatch) => {
+    return {
+        actions: bindActionCreators(sessionActions, dispatch)
+    };
+};
+
+export default connect(mapState, mapDispatch)(NavbarComponent);

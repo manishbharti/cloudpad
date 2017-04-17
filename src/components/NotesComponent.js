@@ -1,10 +1,49 @@
-import React, {Component} from "react";
-import jquery from "jquery";
+import React, {PropTypes} from "react";
 import {Button, Col, ControlLabel, Glyphicon, Table} from "react-bootstrap";
 import {DELETE_NOTE_URL, NOTE_LIST_URL} from "../constants";
-import NoteFormComponent from "./NoteFormComponent";
-import {UserData} from "../App";
+import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
+import * as sessionActions from "../actions/sessionActions";
+import jquery from "jquery";
 
+import {UserData} from "../App";
+import NavbarComponent from "./NavbarComponent";
+import NoteFormComponent from "./NoteFormComponent";
+
+const NotesComponent = ({actions: {logout}, user, authenticated}) => (
+    <div>
+        {console.info('aaaaaaaaaaaaaaaaaaaa')}
+        <h1>Hiaaaaaaaaaaaaaaaaaaaa</h1>
+        <h5>Hiaaaaaaaaaaaaaaaaaaaa</h5>
+
+        {/*<NavbarComponent actions={logout} user={user} authenticated={authenticated}/>*/}
+        {/*<h3>Welcome {user.email}</h3>*/}
+        {/*<h5>{authenticated ? 'You are authentisssssssssssssssssssssssssssscated :)' : 'Error'}</h5>*/}
+    </div>
+);
+
+const {object, bool} = PropTypes;
+
+NotesComponent.propTypes = {
+    actions: object.isRequired,
+    user: object.isRequired,
+    authenticated: bool.isRequired
+};
+
+const mapState = (state) => ({
+    user: state.session.user,
+    authenticated: state.session.authenticated
+});
+
+const mapDispatch = (dispatch) => {
+    return {
+        actions: bindActionCreators(sessionActions, dispatch)
+    };
+};
+
+export default connect(mapState, mapDispatch)(NotesComponent);
+
+/*
 class NotesComponent extends Component {
 
     constructor() {
@@ -20,7 +59,7 @@ class NotesComponent extends Component {
 
     render() {
         let notes = null;
-        if(UserData.isLoggedin()) {
+        if (UserData.isLoggedin()) {
             return (
                 <div>
                     <Col xs={12} md={2}>
@@ -55,7 +94,7 @@ class NotesComponent extends Component {
                     </Col>
                 </div>
             );
-        }else {
+        } else {
             return null;
         }
     }
@@ -133,4 +172,4 @@ class NotesComponent extends Component {
     }
 }
 
-export default NotesComponent;
+export default NotesComponent;*/

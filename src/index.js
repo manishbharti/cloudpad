@@ -1,6 +1,19 @@
 import React from "react";
-import ReactDOM from "react-dom";
-import "./index.css";
-import AppComponent from "./components/AppComponent";
+import {render} from "react-dom";
+import {Provider} from "react-redux";
+import {applyMiddleware, combineReducers, compose, createStore} from "redux";
+import {sessionReducer, sessionService} from "redux-react-session";
+import thunkMiddleware from "redux-thunk";
+import App from "./components/App";
 
-ReactDOM.render(<AppComponent />, document.getElementById('root'));
+// Add the sessionReducer
+const reducer = combineReducers({
+    session: sessionReducer
+});
+
+const store = createStore(reducer, undefined, compose(applyMiddleware(thunkMiddleware)));
+
+// Init the session service
+sessionService.initSessionService(store);
+
+render(<Provider store={store}><App/></Provider>, document.getElementById('root'));

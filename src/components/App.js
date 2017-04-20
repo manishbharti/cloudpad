@@ -5,6 +5,7 @@ import {BrowserRouter as Router, Route} from "react-router-dom";
 import Home from "./Home";
 import Login from "./Login";
 import PrivateRoute from "./PrivateRoute";
+import NoteFormComponent from "./NoteFormComponent";
 
 const App = ({authenticated, checked}) => (
     <Router>
@@ -12,6 +13,7 @@ const App = ({authenticated, checked}) => (
         <div>
             <PrivateRoute exact path="/" component={Home} authenticated={authenticated}/>
             <Route path="/login" component={Login}/>
+            <Route path="/notepad" component={NoteFormComponent}/>
         </div>
         }
     </Router>

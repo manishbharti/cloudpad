@@ -14,8 +14,8 @@ export const login = (user) => {
         async: false,
         success: function (response) {
             serverResponse = {
-                token: response.token_type + " " + response.access_token,
                 data: {
+                    token: response.token_type + " " + response.access_token,
                     email: response.username,
                     roles: response.roles
                 }

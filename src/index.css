@@ -1,5 +1,22 @@
 body {
-  margin: 0;
-  padding: 0;
-  font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+}
+
+.text {
+    min-height: 300px;
+    height: auto;
+    border: 1px solid #ddd;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    margin: 15px 0;
+    overflow: hidden;
+    border-color: rgb(252, 227, 176);
+    background-color: #ffffcc;
+    background-image: url(https://d3dma7a8zw52bz.cloudfront.net/assets/documents/document_body_rules-f0711254a4cc2b734e9317489d363ce2.gif);
+}
+
+.content-text {
+    padding: 0 20px 10px;
+    margin: -5px;
 }

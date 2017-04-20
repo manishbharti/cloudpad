@@ -1,35 +1,95 @@
-import React, {PropTypes} from "react";
-import {connect} from "react-redux";
-import {bindActionCreators} from "redux";
-import {withRouter} from "react-router-dom";
-import * as sessionActions from "../actions/sessionActions";
+import React, {Component} from "react";
+import {Link} from "react-router-dom";
+import {sessionService} from "redux-react-session";
+import * as jquery from "jquery";
+
 import NavbarComponent from "./NavbarComponent";
+import "../index.css";
+import {NOTE_LIST_URL} from "../constants";
 
-const Home = ({actions: {logout}, user, authenticated}) => (
-    <div>
-        <NavbarComponent actions={logout} user={user} authenticated={authenticated}/>
-        <h3>Welcome {user.email}</h3>
-        <h5>{authenticated ? 'You are authenticated :)' : 'Error'}</h5>
-    </div>
-);
+class Home extends Component {
+    constructor() {
+        super();
+        this.state = {
+            notes: []
+        }
+    }
 
-const {object, bool} = PropTypes;
+    componentDidMount() {
+        console.info(this)
+        // this._getNotes();
+    }
 
-Home.propTypes = {
-    actions: object.isRequired,
-    user: object.isRequired,
-    authenticated: bool.isRequired
-};
+    render() {
+        return (
+            <div>
+                <NavbarComponent/>
 
-const mapState = (state) => ({
-    user: state.session.user,
-    authenticated: state.session.authenticated
-});
+                <div className="container">
+                    <div className="row">
 
-const mapDispatch = (dispatch) => {
-    return {
-        actions: bindActionCreators(sessionActions, dispatch)
+                        <Link to="/notepad">
+                            <div className="col-xs-3" key="0">
+                                <div className="text">
+                                    <div className="content-text">
+                                        <h3 className="lead">
+                                            New
+                                        </h3>
+                                        <p>
+                                            Create a new notepad.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </Link>
+
+                        {/*{this.state.notes.map((note) => {
+                                return (
+                                    <div className="col-xs-3" key={note.id}>
+                                        <div className="text">
+                                            <div className="content-text">
+                                                <h3 className="lead">
+                                                    {note.name}
+                                                </h3>
+                                                <p>
+                                                    {note.content}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                );
+                            }
+                        )}*/}
+
+                    </div>
+                </div>
+            </div>
+        );
     };
-};
 
-export default connect(mapState, mapDispatch)(Home);
+    /*_getNotes() {
+        let self = this;
+        sessionService.loadUser()
+            .then(user => {
+                jquery.ajax({
+                    url: NOTE_LIST_URL,
+                    type: "GET",
+                    crossDomain: true,
+                    beforeSend: function (request) {
+                        request.setRequestHeader('Authorization', user.token);
+                    },
+                    data: {username: user.email},
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: "json",
+                    success: function (response) {
+                        self.setState({notes: response.notes});
+                    },
+                    error: function (xhr, status) {
+                        console.info("Error");
+                    }
+                });
+            }).catch(err => console.error(err));
+    }*/
+}
+
+export default Home;

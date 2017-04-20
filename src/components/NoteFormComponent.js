@@ -3,20 +3,21 @@ import {Button, ControlLabel, Form, FormControl, FormGroup} from "react-bootstra
 import jquery from "jquery";
 import {UserData} from "../App";
 import {SAVE_NOTE_URL, SHOW_NOTE_URL, UPDATE_NOTE_URL} from "../constants";
+import NavbarComponent from "./NavbarComponent";
 
 class NoteFormComponent extends Component {
 
     constructor() {
         super();
         this.state = {
-            show: false,
             note: {}
         }
     }
 
     render() {
-        if (this.state.show) {
-            return (
+        return (
+            <div>
+                <NavbarComponent/>
                 <Form onSubmit={this._saveNote.bind(this)}>
                     <FormGroup controlId="formControlsNoteName">
                         <ControlLabel>Notepad Name</ControlLabel>
@@ -31,10 +32,8 @@ class NoteFormComponent extends Component {
                     </FormGroup>
                     <Button type="submit" bsStyle="primary" className="pull-right">Save</Button>
                 </Form>
-            );
-        } else {
-            return null;
-        }
+            </div>
+        );
     }
 
     _handleContentChange(event) {

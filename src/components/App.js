@@ -6,11 +6,12 @@ import {firebaseAuth} from "../config/constants";
 import {PublicRoute} from "../config/PublicRoute";
 import {PrivateRoute} from "../config/PrivateRoute";
 
+import Navbar from "./Navbar";
+import Home from "./Home";
 import Login from "./Login";
 import Register from "./Register";
-import Home from "./Home";
 import Dashboard from "./protected/Dashboard";
-import Navbar from "./Navbar";
+import NoteForm from "./protected/NoteForm";
 
 export default class App extends Component {
     state = {
@@ -56,6 +57,7 @@ export default class App extends Component {
                                     <PublicRoute authed={this.state.authed} path='/register' component={Register}/>
 
                                     <PrivateRoute authed={this.state.authed} path='/dashboard' component={Dashboard}/>
+                                    <PrivateRoute authed={this.state.authed} path='/new-notepad' component={NoteForm}/>
 
                                     <Route path='/' exact component={Home}/>
                                     <Route render={() => <h3>No Match</h3>}/>

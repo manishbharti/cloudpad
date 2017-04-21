@@ -58,6 +58,7 @@ export default class App extends Component {
 
                                     <PrivateRoute authed={this.state.authed} path='/dashboard' component={Dashboard}/>
                                     <PrivateRoute authed={this.state.authed} path='/new-notepad' component={NoteForm}/>
+                                    <PrivateRoute authed={this.state.authed} path="/notepad/:id" component={NoteForm} />
 
                                     <Route path='/' exact component={Home}/>
                                     <Route render={() => <h3>No Match</h3>}/>

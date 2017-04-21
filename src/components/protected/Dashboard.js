@@ -22,8 +22,8 @@ export default class Dashboard extends Component {
             <div className="container">
                 <div className="row">
 
-                    <Link to="/new-notepad">
-                        <div className="col-xs-3" key="0">
+                    <Link to="/new-notepad" key={0}>
+                        <div className="col-xs-3">
                             <div className="notepadSticker newNotepadSticker">
                                 <div className="content-text">
                                     <h3 className="lead">
@@ -39,18 +39,20 @@ export default class Dashboard extends Component {
 
                     {this.state.notes.map((note) => {
                             return (
-                                <div className="col-xs-3" key={note.uid}>
-                                    <div className="notepadSticker">
-                                        <div className="content-text">
-                                            <h3 className="lead">
-                                                {note.name}
-                                            </h3>
-                                            <p>
-                                                {wrapText(note.content)}
-                                            </p>
+                                <Link to={{pathname: `/notepad/${note.id}`}} key={note.id}>
+                                    <div className="col-xs-3">
+                                        <div className="notepadSticker">
+                                            <div className="content-text">
+                                                <h3 className="lead">
+                                                    {note.name}
+                                                </h3>
+                                                <p>
+                                                    {wrapText(note.content)}
+                                                </p>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                </Link>
                             );
                         }
                     )}

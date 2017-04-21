@@ -4,7 +4,7 @@ body {
     font-family: sans-serif;
 }
 
-.text {
+.notepadSticker {
     min-height: 300px;
     height: auto;
     border: 1px solid #ddd;
@@ -14,6 +14,10 @@ body {
     border-color: rgb(252, 227, 176);
     background-color: #ffffcc;
     background-image: url(https://d3dma7a8zw52bz.cloudfront.net/assets/documents/document_body_rules-f0711254a4cc2b734e9317489d363ce2.gif);
+}
+
+.newNotepadSticker{
+    background-color: white;
 }
 
 .content-text {

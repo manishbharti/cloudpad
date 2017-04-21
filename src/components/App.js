@@ -40,7 +40,9 @@ export default class App extends Component {
 
     render() {
         if (this.state.loading) {
-            return <h1>Loading</h1>;
+            return (
+                <h1 className="loading">Loading&#8230;</h1>
+            );
         } else {
             return (
                 <BrowserRouter>

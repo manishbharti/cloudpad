@@ -19,7 +19,7 @@ export default class App extends Component {
         loading: true,
     };
 
-    componentDidMount() {
+    componentWillMount() {
         this.removeListener = firebaseAuth().onAuthStateChanged((user) => {
             if (user) {
                 this.setState({

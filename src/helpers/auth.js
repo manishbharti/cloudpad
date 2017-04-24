@@ -24,21 +24,3 @@ export function saveUser(user) {
         })
         .then(() => user)
 }
-
-export function writeUserData(userId, firstName, lastName) {
-    let updates = {};
-    updates['/users/' + userId + '/firstName'] = 'updatedFN';
-
-    return ref.update(updates);
-}
-
-export function getUser() {
-    firebaseAuth().onAuthStateChanged(function (user) {
-        if (user) {
-            console.info(user);
-            // writeUserData(user.uid, "test", "name")
-        } else {
-            console.info("User not found.");
-        }
-    });
-}

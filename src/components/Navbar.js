@@ -14,7 +14,9 @@ export default class Navbar extends Component {
                         <li>
                             {this.props.authed
                                 ? <span>
-                                    <Link to="/dashboard" className="navbar-brand">Dashboard</Link>
+                                    {location.pathname === "/dashboard"
+                                        ? null
+                                        : <Link to="/dashboard" className="navbar-brand">Dashboard</Link>}
                                     <button
                                         style={{border: 'none', background: 'transparent'}}
                                         onClick={() => {

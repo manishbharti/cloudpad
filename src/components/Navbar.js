@@ -16,13 +16,17 @@ export default class Navbar extends Component {
                                 ? <span>
                                     {location.pathname === "/dashboard"
                                         ? null
-                                        : <Link to="/dashboard" className="navbar-brand">Dashboard</Link>}
+                                        : <Link to="/dashboard" className="navbar-brand" title="Dashboard">
+                                            <span className="glyphicon glyphicon-home" aria-hidden="true"/>
+                                        </Link>}
                                     <button
                                         style={{border: 'none', background: 'transparent'}}
                                         onClick={() => {
                                             logout()
                                         }}
-                                        className="navbar-brand">Logout</button>
+                                        className="navbar-brand" title="Logout">
+                                            <span className="glyphicon glyphicon-off" aria-hidden="true"/>
+                                    </button>
                                   </span>
                                 : <span>
                                     <Link to="/login" className="navbar-brand">Login</Link>

@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {ref} from "../../config/constants";
+import {firebaseAuth, ref} from "../../config/constants";
 
 export default class NoteForm extends Component {
 
@@ -8,6 +8,7 @@ export default class NoteForm extends Component {
 
         this.state = {
             id: props.match.params.id,
+            user: null,
             note: {}
         };
 
@@ -16,6 +17,12 @@ export default class NoteForm extends Component {
     }
 
     componentWillMount() {
+        this.removeListener = firebaseAuth().onAuthStateChanged((user) => {
+            if (user) {
+                this.setState({user: user})
+            }
+        });
+
         if (this.state.id) {
             let self = this;
             ref.child(`notes/${this.state.id}`).on('value', function (snapshot) {
@@ -66,19 +73,24 @@ export default class NoteForm extends Component {
 
     _submitForm(event) {
         event.preventDefault();
-        if (this.state.id) {
-            this._updateNote(this.state.id, this.state.note);
+        if (this.state.user) {
+            if (this.state.id) {
+                this._updateNote(this.state.id, this.state.note);
+            } else {
+                this._saveNote(this.state.note, this.state.user);
+            }
         } else {
-            this._saveNote(this.state.note);
+            console.error("User not found.")
         }
     }
 
-    _saveNote(note) {
+    _saveNote(note, user) {
         let id = ref.push().getKey();
         ref.child(`notes/${id}`).set({
             id: id,
             name: note.name,
-            content: note.content
+            content: note.content,
+            userId: user.uid
         }).then(() => this._goToDashboard());
     }
 

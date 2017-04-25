@@ -1,4 +1,8 @@
 export function convertObjectToArray(data) {
+    if (!data) {
+        return [];
+    }
+
     return Object.keys(data).map(function (k) {
         return data[k]
     });

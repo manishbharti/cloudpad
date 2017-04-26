@@ -48,7 +48,7 @@ export default class NoteForm extends Component {
                         <div className="row">
                             <div className="col-md-12">
                                 <div className="form-group">
-                                    <textarea className="form-control textarea" rows="10" name="content"
+                                    <textarea className="form-control textarea" rows="31" name="content"
                                               value={this.state.note.content || ''}
                                               placeholder="Content" onChange={this._handleFormTextChange}/>
                                 </div>
@@ -56,7 +56,13 @@ export default class NoteForm extends Component {
                         </div>
                         <div className="row">
                             <div className="col-md-12">
-                                <button type="submit" className="btn main-btn pull-right">Save</button>
+                                <div className="pull-right">
+                                    <button type="submit" className="btn main-btn">Save</button>
+                                    &nbsp;
+                                    <button type="button" onClick={this._goToDashboard.bind(this)}
+                                            className="btn main-btn">Cancel
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </form>

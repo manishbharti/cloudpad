@@ -44,7 +44,7 @@ export default class NoteForm extends Component {
                             <div className="col-md-12">
                                 <div className="form-group">
                                     <input type="text" className="form-control" name="name" placeholder="Notepad Name"
-                                           value={this.state.note.name || ''} maxLength="100"
+                                           value={this.state.note.name || ''} maxLength="100" required={true}
                                            onChange={this._handleFormTextChange}/>
                                 </div>
                             </div>
@@ -53,19 +53,19 @@ export default class NoteForm extends Component {
                             <div className="col-md-12">
                                 <div className="form-group">
                                      <textarea className="form-control textarea" rows="31" name="content"
-                                     value={this.state.note.content || ''}
-                                     placeholder="Content" onChange={this._handleFormTextChange}/>
+                                               value={this.state.note.content || ''}
+                                               placeholder="Content" onChange={this._handleFormTextChange}/>
                                     {/*<ReactQuill value={this.state.note.content || ''}
-                                                onChange={this._handleFormTextChange1.bind(this)}
-                                                modules={{
-                                                    toolbar: [
-                                                        [{'header': [1, 2, false]}],
-                                                        ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-                                                        [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}],
-                                                        ['link', 'image'],
-                                                        ['clean']
-                                                    ]
-                                                }}/>*/}
+                                     onChange={this._handleFormTextChange1.bind(this)}
+                                     modules={{
+                                     toolbar: [
+                                     [{'header': [1, 2, false]}],
+                                     ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+                                     [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}],
+                                     ['link', 'image'],
+                                     ['clean']
+                                     ]
+                                     }}/>*/}
                                 </div>
                             </div>
                         </div>
@@ -93,10 +93,10 @@ export default class NoteForm extends Component {
     }
 
     /*_handleFormTextChange1(value) {
-        let note = this.state.note;
-        note["content"] = value;
-        this.setState({note: note});
-    }*/
+     let note = this.state.note;
+     note["content"] = value;
+     this.setState({note: note});
+     }*/
 
     _submitForm(event) {
         event.preventDefault();
@@ -115,8 +115,8 @@ export default class NoteForm extends Component {
         let id = ref.push().getKey();
         ref.child(`notes/${id}`).set({
             id: id,
-            name: note.name,
-            content: note.content,
+            name: note.name || null,
+            content: note.content || null,
             userId: user.uid
         }).then(() => this._goToDashboard());
     }

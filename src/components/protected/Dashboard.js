@@ -48,10 +48,10 @@ export default class Dashboard extends Component {
                                         <div className="notepadSticker">
                                             <div className="content-text">
                                                 <h3 className="lead">
-                                                    {note.name}
+                                                    {wrapText(note.name, 21)}
                                                 </h3>
                                                 <p>
-                                                    {wrapText(note.content)}
+                                                    {wrapText(note.content, 300)}
                                                 </p>
                                             </div>
                                         </div>

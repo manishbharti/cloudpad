@@ -8,8 +8,8 @@ export function convertObjectToArray(data) {
     });
 }
 
-export function wrapText(text) {
-    return text.length > 300 ? text.substring(0, 300) + "..." : text;
+export function wrapText(text, characterLimit) {
+    return text.length > characterLimit ? text.substring(0, characterLimit) + "..." : text;
 }
 
 export function validateRegistrationForm(user) {

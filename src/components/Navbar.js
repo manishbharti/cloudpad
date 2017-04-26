@@ -1,8 +1,24 @@
 import React, {Component} from "react";
 import {Link} from "react-router-dom";
 import {logout} from "../helpers/auth";
+import {firebaseAuth, ref} from "../config/constants";
 
 export default class Navbar extends Component {
+    state = {
+        userName: null
+    };
+
+    componentWillMount() {
+        let self = this;
+        this.removeListener = firebaseAuth().onAuthStateChanged((user) => {
+            if (user) {
+                ref.child(`users/${user.uid}`).on('value', function (snapshot) {
+                    self.setState({userName: snapshot.val().firstName + (snapshot.val().lastName ? " " + snapshot.val().lastName : "")});
+                });
+            }
+        });
+    }
+
     render() {
         return (
             <nav className="navbar navbar-default navbar-static-top">
@@ -27,6 +43,7 @@ export default class Navbar extends Component {
                                         className="navbar-brand" title="Logout">
                                             <span className="glyphicon glyphicon-off" aria-hidden="true"/>
                                     </button>
+                                    <div className="navbar-brand">{this.state.userName}</div>
                                   </span>
                                 : <span>
                                     <Link to="/login" className="navbar-brand">Login</Link>

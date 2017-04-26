@@ -8,6 +8,7 @@
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "react-grecaptcha": "^1.1.6",
+    "react-quill": "^1.0.0-rc.2",
     "react-redux": "^5.0.3",
     "react-router-dom": "^4.0.0"
   },

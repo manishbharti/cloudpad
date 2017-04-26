@@ -1,5 +1,9 @@
 import React, {Component} from "react";
 import {firebaseAuth, ref} from "../../config/constants";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
+import "react-quill/dist/quill.bubble.css";
+import "react-quill/dist/quill.core.css";
 
 export default class NoteForm extends Component {
 
@@ -40,7 +44,7 @@ export default class NoteForm extends Component {
                             <div className="col-md-12">
                                 <div className="form-group">
                                     <input type="text" className="form-control" name="name" placeholder="Notepad Name"
-                                           value={this.state.note.name || ''}
+                                           value={this.state.note.name || ''} maxLength="100"
                                            onChange={this._handleFormTextChange}/>
                                 </div>
                             </div>
@@ -48,9 +52,20 @@ export default class NoteForm extends Component {
                         <div className="row">
                             <div className="col-md-12">
                                 <div className="form-group">
-                                    <textarea className="form-control textarea" rows="31" name="content"
-                                              value={this.state.note.content || ''}
-                                              placeholder="Content" onChange={this._handleFormTextChange}/>
+                                     <textarea className="form-control textarea" rows="31" name="content"
+                                     value={this.state.note.content || ''}
+                                     placeholder="Content" onChange={this._handleFormTextChange}/>
+                                    {/*<ReactQuill value={this.state.note.content || ''}
+                                                onChange={this._handleFormTextChange1.bind(this)}
+                                                modules={{
+                                                    toolbar: [
+                                                        [{'header': [1, 2, false]}],
+                                                        ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+                                                        [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}],
+                                                        ['link', 'image'],
+                                                        ['clean']
+                                                    ]
+                                                }}/>*/}
                                 </div>
                             </div>
                         </div>
@@ -76,6 +91,12 @@ export default class NoteForm extends Component {
         note[event.target.name] = event.target.value;
         this.setState({note: note});
     }
+
+    /*_handleFormTextChange1(value) {
+        let note = this.state.note;
+        note["content"] = value;
+        this.setState({note: note});
+    }*/
 
     _submitForm(event) {
         event.preventDefault();

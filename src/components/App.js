@@ -50,21 +50,17 @@ export default class App extends Component {
                     <div>
                         <Navbar authed={this.state.authed}/>
 
-                        <div className="container">
-                            <div className="row">
-                                <Switch>
-                                    <PublicRoute authed={this.state.authed} path='/login' component={Login}/>
-                                    <PublicRoute authed={this.state.authed} path='/register' component={Register}/>
+                        <Switch>
+                            <PublicRoute authed={this.state.authed} path='/login' component={Login}/>
+                            <PublicRoute authed={this.state.authed} path='/register' component={Register}/>
 
-                                    <PrivateRoute authed={this.state.authed} path='/dashboard' component={Dashboard}/>
-                                    <PrivateRoute authed={this.state.authed} path='/new-notepad' component={NoteForm}/>
-                                    <PrivateRoute authed={this.state.authed} path="/notepad/:id" component={NoteForm} />
+                            <PrivateRoute authed={this.state.authed} path='/dashboard' component={Dashboard}/>
+                            <PrivateRoute authed={this.state.authed} path='/new-notepad' component={NoteForm}/>
+                            <PrivateRoute authed={this.state.authed} path="/notepad/:id" component={NoteForm}/>
 
-                                    <Route path='/' exact component={Home}/>
-                                    <Route render={() => <h3>No Match</h3>}/>
-                                </Switch>
-                            </div>
-                        </div>
+                            <Route path='/' exact component={Home}/>
+                            <Route render={() => <h3>No Match</h3>}/>
+                        </Switch>
                     </div>
                 </BrowserRouter>
             );

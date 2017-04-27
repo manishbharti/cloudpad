@@ -12,6 +12,7 @@ import Login from "./Login";
 import Register from "./Register";
 import Dashboard from "./protected/Dashboard";
 import NoteForm from "./protected/NoteForm";
+import Profile from "./protected/Profile";
 
 export default class App extends Component {
     state = {
@@ -57,6 +58,7 @@ export default class App extends Component {
                             <PrivateRoute authed={this.state.authed} path='/dashboard' component={Dashboard}/>
                             <PrivateRoute authed={this.state.authed} path='/new-notepad' component={NoteForm}/>
                             <PrivateRoute authed={this.state.authed} path="/notepad/:id" component={NoteForm}/>
+                            <PrivateRoute authed={this.state.authed} path="/profile" component={Profile}/>
 
                             <Route path='/' exact component={Home}/>
                             <Route render={() => <h3>No Match</h3>}/>

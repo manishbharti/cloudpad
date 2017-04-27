@@ -43,7 +43,9 @@ export default class Navbar extends Component {
                                         className="navbar-brand" title="Logout">
                                             <span className="glyphicon glyphicon-off" aria-hidden="true"/>
                                     </button>
-                                    <div className="navbar-brand">{this.state.userName}</div>
+                                    <Link to={{pathname: `/profile`}}>
+                                        <div className="navbar-brand">{this.state.userName}</div>
+                                    </Link>
                                   </span>
                                 : <span>
                                     <Link to="/login" className="navbar-brand">Login</Link>

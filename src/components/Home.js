@@ -13,7 +13,7 @@ export default class Home extends Component {
 
     render() {
         return (
-            <div>
+            <div className="container">
                 {this.state.user ? <Redirect to="/dashboard"/> : null}
                 <h3>Welcome to Cloudpad</h3>
                 <p>A online notepad facility provider</p>

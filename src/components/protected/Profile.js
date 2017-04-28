@@ -1,10 +1,12 @@
 import React, {Component} from "react";
 import {firebaseAuth, ref} from "../../config/constants";
 import "../../sticker.css";
+import {CloudinaryContext, Image, Transformation} from "cloudinary-react";
 
 export default class Profile extends Component {
     state = {
-        user: ''
+        user: '',
+        profilePublicId: 'Blank_Club_Website_Avatar_Gray_kjrefw'
     };
 
     componentWillMount() {
@@ -12,11 +14,39 @@ export default class Profile extends Component {
         this.removeListener = firebaseAuth().onAuthStateChanged((user) => {
             if (user) {
                 ref.child(`users/${user.uid}`).on('value', function (snapshot) {
-                    self.setState({user: snapshot.val()});
-                    console.info(self.state.user);
+                    if (snapshot.val()) {
+                        self.setState({user: snapshot.val(), profilePublicId: snapshot.val().profileImagePublicId});
+                    }
                 });
             }
         });
+    }
+
+    _uploadImage(event) {
+        event.preventDefault();
+        let self = this;
+
+        let formData = new FormData();
+        formData.append('upload_preset', 'qs7oupjy');
+        formData.append('file', document.getElementsByName('file')[0].files[0]);
+
+        fetch("https://api.cloudinary.com/v1_1/dsrgjx9tu/image/upload", {
+            method: 'POST',
+            body: formData
+        }).then((response) => {
+            return response.json();
+        }).then(function (data) {
+            self.setState({profilePublicId: data.public_id});
+            self._saveUserProfileImageInUserTable(data.public_id)
+        });
+    }
+
+    _saveUserProfileImageInUserTable(profileImagePublicId) {
+        if (this.state.user) {
+            let updates = {};
+            updates['/users/' + this.state.user.uid + '/profileImagePublicId'] = profileImagePublicId;
+            ref.update(updates);
+        }
     }
 
     render() {
@@ -31,8 +61,17 @@ export default class Profile extends Component {
                             <div className="panel-body">
                                 <div className="row">
                                     <div className="col-md-3 col-lg-3">
-                                        <img alt="User Pic" className="img-circle img-responsive"
-                                             src="http://s3.amazonaws.com/nvest/Blank_Club_Website_Avatar_Gray.jpg"/>
+                                        <CloudinaryContext cloudName="dsrgjx9tu">
+                                            <Image publicId={this.state.profilePublicId}>
+                                                <Transformation width="250" height="250" radius="max" crop="crop"/>
+                                            </Image>
+                                        </CloudinaryContext>
+
+                                        <form encType="multipart/form-data" onSubmit={this._uploadImage.bind(this)}>
+                                            <legend>Change profile image</legend>
+                                            <p><input type="file" name="file"/></p>
+                                            <p><input type="submit" value="Submit" className="btn btn-primary"/></p>
+                                        </form>
                                     </div>
 
                                     <div className="col-md-9 col-lg-9">

@@ -35,7 +35,7 @@ export default class Dashboard extends Component {
                 <div className="container">
                     <div className="row">
 
-                        <Link to="/new-notepad" key={0}>
+                        <Link to="/notepad" key={0}>
                             <div className="col-xs-3">
                                 <div className="notepadSticker newNotepadSticker">
                                     <div className="content-text">

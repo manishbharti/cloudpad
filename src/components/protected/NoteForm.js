@@ -13,7 +13,8 @@ export default class NoteForm extends Component {
         this.state = {
             id: props.match.params.id,
             user: null,
-            note: {}
+            note: {},
+            info: null
         };
 
         this._handleFormTextChange = this._handleFormTextChange.bind(this);
@@ -24,6 +25,8 @@ export default class NoteForm extends Component {
         this.removeListener = firebaseAuth().onAuthStateChanged((user) => {
             if (user) {
                 this.setState({user: user})
+            } else if (this.state.id) {
+                this.setState({info:`Please save the url <b>(${window.location.href})</b> for accessing this note in future.`});
             }
         });
 
@@ -39,6 +42,11 @@ export default class NoteForm extends Component {
         return (
             <div className="container">
                 <div className="row">
+                    {
+                        this.state.info ?
+                            <div className="alert alert-info" dangerouslySetInnerHTML={{__html: this.state.info}}/> :
+                            null
+                    }
                     <form className="contact-form" onSubmit={this._submitForm}>
                         <div className="row">
                             <div className="col-md-12">
@@ -100,24 +108,21 @@ export default class NoteForm extends Component {
 
     _submitForm(event) {
         event.preventDefault();
-        if (this.state.user) {
-            if (this.state.id) {
-                this._updateNote(this.state.id, this.state.note);
-            } else {
-                this._saveNote(this.state.note, this.state.user);
-            }
+        if (this.state.id) {
+            this._updateNote(this.state.id, this.state.note);
         } else {
-            console.error("User not found.")
+            this._saveNote(this.state.note, this.state.user);
         }
     }
 
     _saveNote(note, user) {
         let id = ref.push().getKey();
+        this.setState({id: id});
         ref.child(`notes/${id}`).set({
             id: id,
             name: note.name || null,
             content: note.content || null,
-            userId: user.uid
+            userId: user ? user.uid : null
         }).then(() => this._goToDashboard());
     }
 
@@ -129,7 +134,11 @@ export default class NoteForm extends Component {
     }
 
     _goToDashboard() {
-        this.props.history.push('/dashboard')
+        if (this.state.user) {
+            this.props.history.push('/')
+        } else {
+            this.props.history.push(`/notepad/${this.state.id}`)
+        }
     }
 }
 

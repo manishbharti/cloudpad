@@ -55,11 +55,12 @@ export default class App extends Component {
                             <PublicRoute authed={this.state.authed} path='/login' component={Login}/>
                             <PublicRoute authed={this.state.authed} path='/register' component={Register}/>
 
+                            <PublicRoute authed={false} path='/notepad/:id' component={NoteForm}/>
+                            <PublicRoute authed={false} path='/notepad' component={NoteForm}/>
+
                             <PrivateRoute authed={this.state.authed} path='/dashboard' component={Dashboard}/>
                             <PrivateRoute authed={this.state.authed} path="/profile" component={Profile}/>
 
-                            <Route path="/notepad/:id" component={NoteForm}/>
-                            <Route path="/notepad" component={NoteForm}/>
                             <Route path='/' exact component={Home}/>
                             <Route render={() => <h3>No Match</h3>}/>
                         </Switch>

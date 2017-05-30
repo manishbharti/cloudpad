@@ -9,6 +9,10 @@ export function convertObjectToArray(data) {
 }
 
 export function wrapText(text, characterLimit) {
+    if(!text){
+        return '';
+    }
+
     return text.length > characterLimit ? text.substring(0, characterLimit) + "..." : text;
 }
 

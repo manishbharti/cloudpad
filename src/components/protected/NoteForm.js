@@ -129,7 +129,7 @@ export default class NoteForm extends Component {
     _updateNote(id, note) {
         let updates = {};
         updates['/notes/' + id + '/name'] = note.name;
-        updates['/notes/' + id + '/content'] = note.content;
+        updates['/notes/' + id + '/content'] = note.content || null;
         ref.update(updates).then(() => this._goToDashboard());
     }
 
@@ -137,7 +137,8 @@ export default class NoteForm extends Component {
         if (this.state.user) {
             this.props.history.push('/')
         } else {
-            this.props.history.push(`/notepad/${this.state.id}`)
+            this.setState({info:`Please save the url <b>(${window.location.href + this.state.id})</b> for accessing this note in future.`});
+            this.props.history.push('/notepad/' + this.state.id)
         }
     }
 }
